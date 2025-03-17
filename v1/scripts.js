@@ -1,13 +1,14 @@
 
 
+
 function SubmitSchoolDetail() {
     try {
         var formData = {
-            schoolName: "Testing",
-            eventName: "Testing",
-            contactPersonName: "Testing",
-            contactPersonMobile: "Testing",
-            contactPersonEmail: "Testing"
+            schoolName: document.getElementById('schoolName').value,
+            eventName: document.getElementById('eventName').value,
+            contactPersonName: document.getElementById('contactPersonName').value,
+            contactPersonMobile: document.getElementById('contactPersonMobile').value,
+            contactPersonEmail: document.getElementById('contactPersonEmail').value,
         }
 
         var formBaseUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSc4YJ4TaypFCQW5SmQu0IgOjN9cQ4c0NDXmxV_TwuGMoyDoHw/formResponse?&submit=Submit?usp=pp_url'
@@ -68,22 +69,29 @@ function SubmitEventDetail(){
 }
 
 
-function submitDataToGoogleForms (formUrl) {
+function submitDataToGoogleForms(formUrl) {
     fetch(formUrl, {
       method: 'POST',
-      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
-    }).then(response => {
-        console.log(response)
-    }).catch(error => {
-        console.error('Error submitting the form', error)
-    })
+    }).then(response => response.text())  // Get response as text
+      .then(data => console.log("Response:", data))
+      .catch(error => console.error('Error submitting the form', error));
 }
+
 
 function generatePdf(){
     var doc = new jsPDF()
     doc.text('Hello world!', 10, 10)
     doc.save('Test.pdf')
+}
+
+
+function handleSubmitAndGenerateReport() {
+    SubmitEventDetail();
+    SubmitSchoolDetail();  // Submit form data
+    setTimeout(() => {
+        generatePdf();  // Generate PDF after a short delay
+    }, 1000);  // 1-second delay to allow form submission
 }
