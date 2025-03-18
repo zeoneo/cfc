@@ -49,7 +49,7 @@ function SubmitEventDetail(){
             wasteCompostingPossibility: document.getElementById('wasteCompostingPossibility').value,
             wasteLandfillKilogram: document.getElementById('wasteLandfillKilogram').value
         }
-        
+        const eventStage = "Pre-Event"; 
         var formBaseUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfWOWlZ9IIrP1wfZ9XgzbF2cbdkQdbHqWBzvUHEEOlViA2k2w/formResponse?&submit=Submit?usp=pp_url'
         var formUrlQueryParam = `&entry.493368372=${formData.schoolName}&entry.87921043=${formData.eventName}&entry.646415086=${formData.contactPersonName}
         &entry.1310405729=${formData.contactPersonMobile}&entry.376730094=${formData.contactPersonEmail}&entry.1814042066=${formData.eventDate}
@@ -58,7 +58,8 @@ function SubmitEventDetail(){
         &entry.1289781962=${formData.transportDieselUsage}&entry.73047054=${formData.transportPetrolUsage}&entry.1313536288=${formData.transportEVUsage}
         &entry.413821880=${formData.participantsUsingPublicTransport}&entry.79051389=${formData.participantsUsingCarpool}
         &entry.814786714=${formData.participantsUsingPrivateVehicle}&entry.1177172054=${formData.participantsUsingCyleWalk}
-        &entry.600183046=${formData.wasteSegregationPossibility}&entry.1578498963=${formData.wasteCompostingPossibility}&entry.382187960=${formData.wasteLandfillKilogram}`
+        &entry.600183046=${formData.wasteSegregationPossibility}&entry.1578498963=${formData.wasteCompostingPossibility}&entry.382187960=${formData.wasteLandfillKilogram}
+        &entry.2108547846=${eventStage}`
         var finalFormURL = `${formBaseUrl}${formUrlQueryParam}`
         submitDataToGoogleForms(finalFormURL)
         alert('Data submitted successfully.')
