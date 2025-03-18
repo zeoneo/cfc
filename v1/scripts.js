@@ -1,4 +1,66 @@
+const API_KEY = "AIzaSyCzMfTwlGOJQKrTI4_7LtIJSbzGDboHfwQ";
+const SPREADSHEET_ID = "1bO5zY26LA5bx01RApjrik6QOmBU4dOVDlFQHRu5QWaI";
+const SHEET_NAME = "Form Responses 2";
 
+// Fetch Data from Google Sheet
+async function fetchSheetData() {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        return data.values;
+    } catch (error) {
+        console.error("Error fetching sheet data:", error);
+        return [];
+    }
+}
+
+// Populate School Name List
+async function populateSchoolList() {
+    const sheetData = await fetchSheetData();
+    const schoolList = document.getElementById("schoolList");
+    let schools = new Set();
+
+    sheetData.slice(1).forEach(row => {
+        if (row[1]) schools.add(row[1].trim());
+    });
+
+    schoolList.innerHTML = "";
+    schools.forEach(school => {
+        let option = document.createElement("option");
+        option.value = school;
+        schoolList.appendChild(option);
+    });
+}
+
+// Populate Event Name List based on selected school
+async function populateEventList() {
+    const schoolName = document.getElementById("schoolName").value;
+    const sheetData = await fetchSheetData();
+    const eventList = document.getElementById("eventList");
+    let events = new Set();
+
+    sheetData.slice(1).forEach(row => {
+        if (row[1]?.trim() === schoolName && row[2]) {
+            events.add(row[2].trim());
+        }
+    });
+
+    eventList.innerHTML = "";
+    events.forEach(event => {
+        let option = document.createElement("option");
+        option.value = event;
+        eventList.appendChild(option);
+    });
+}
+
+// Event Listeners
+document.getElementById("schoolName").addEventListener("input", populateEventList);
+
+// Initialize dropdowns
+populateSchoolList();
+
+//////////////
 
 
 function SubmitSchoolDetail() {

@@ -71,10 +71,12 @@
         <h2>Event Details Form</h2>
         <form>
             <label for="schoolName">School Name:</label>
-            <input type="text" id="schoolName" required>
-            
+            <input list="schoolList" id="schoolName"  autocomplete="off"  required>
+            <datalist id="schoolList"></datalist>
+
             <label for="eventName">Event Name:</label>
-            <input type="text" id="eventName" required>
+            <input list="eventList" id="eventName" autocomplete="off"  required>
+            <datalist id="eventList"></datalist>
             
             <label for="contactPersonName">Contact Person Name:</label>
             <input type="text" id="contactPersonName" required>
