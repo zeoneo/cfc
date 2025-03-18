@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
         const { jsPDF } = window.jspdf;
     </script>
@@ -141,5 +142,47 @@
             <button type="button" onclick="handleSubmitAndGenerateReport()">Submit and Create Report</button>
         </form>
     </div>
+    <!-- Hidden Carbon Footprint Report for PDF -->
+    <div class="container" id="report-content" style="display: none; margin: 0 auto; text-align: left;">
+    <h1>🌍 Carbon Footprint Report</h1>
+    <p>Thank you for submitting your event data! Here is the summary of your environmental impact.</p>
+
+    <h2>📊 Emissions Summary</h2>
+    <table>
+        <tr>
+            <th>Fuel/Source</th>
+            <th>Usage</th>
+            <th>Emission Factor</th>
+            <th>Total Emission (kg CO₂e)</th>
+        </tr>
+        <tbody id="pdfTableBody"></tbody>
+        <tr>
+            <th colspan="3">Total Emissions</th>
+            <th style="color: red;"><span id="totalEmissions"></span> kg CO₂e</th>
+        </tr>
+    </table>
+
+    <div class="summary">
+        <strong>🌱 Recommendations:</strong>
+        <ul>
+            <li>Consider using **renewable energy sources** to reduce electricity emissions.</li>
+            <li>Encourage **carpooling or public transport** to lower fuel usage.</li>
+            <li>Implement **waste reduction strategies** to decrease landfill impact.</li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        <p><strong>Prepared by:</strong> Green Initiative Team</p>
+        <p>📅 Generated on: <span id="report-date"></span></p>
+    </div>
+</div>
+
+<!-- Include html2pdf.js Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+<script>
+    document.getElementById("report-date").innerText = new Date().toLocaleDateString();
+</script>
+
 </body>
 </html>

@@ -143,18 +143,86 @@ function submitDataToGoogleForms(formUrl) {
       .catch(error => console.error('Error submitting the form', error));
 }
 
+const emissionFactors = {
+    petrol: 2.27193, // kg CO₂ per liter
+    diesel: 2.6444,  // kg CO₂ per liter
+    electricity: 653, // kg CO₂ per MWh
+    landfillWaste: 7.455 // kg CO₂e per kg waste
+};
 
-function generatePdf(){
-    var doc = new jsPDF()
-    doc.text('Hello world!', 10, 10)
-    doc.save('Test.pdf')
+
+function generatePDF() {
+    // Define Emission Factors
+    const emissionFactors = {
+        petrol: 2.27193, // kg CO₂ per liter
+        diesel: 2.6444,  // kg CO₂ per liter
+        electricity: 0.653, // kg CO₂ per kWh
+        landfillWaste: 7.455 // kg CO₂e per kg waste
+    };
+
+    // Get Input Values from Form
+    const emissions = {
+        petrol: document.getElementById('transportPetrolUsage').value * emissionFactors.petrol,
+        diesel: document.getElementById('transportDieselUsage').value * emissionFactors.diesel,
+        electricity: document.getElementById('electricityUnitsUsage').value * emissionFactors.electricity,
+        landfillWaste: document.getElementById('wasteLandfillKilogram').value * emissionFactors.landfillWaste
+    };
+
+    // Populate Event Details
+    document.getElementById("pdfTableBody").innerHTML = `
+        <tr>
+            <td>Petrol</td>
+            <td>${document.getElementById('transportPetrolUsage').value} L</td>
+            <td>2.27 kg CO₂/liter</td>
+            <td>${emissions.petrol.toFixed(2)} kg CO₂</td>
+        </tr>
+        <tr>
+            <td>Diesel</td>
+            <td>${document.getElementById('transportDieselUsage').value} L</td>
+            <td>2.64 kg CO₂/liter</td>
+            <td>${emissions.diesel.toFixed(2)} kg CO₂</td>
+        </tr>
+        <tr>
+            <td>Electricity</td>
+            <td>${document.getElementById('electricityUnitsUsage').value} kWh</td>
+            <td>0.653 kg CO₂/kWh</td>
+            <td>${emissions.electricity.toFixed(2)} kg CO₂</td>
+        </tr>
+        <tr>
+            <td>Landfill Waste</td>
+            <td>${document.getElementById('wasteLandfillKilogram').value} kg</td>
+            <td>7.45 kg CO₂e/kg</td>
+            <td>${emissions.landfillWaste.toFixed(2)} kg CO₂</td>
+        </tr>
+    `;
+
+    // Calculate Total Emissions
+    const totalEmissions = emissions.petrol + emissions.diesel + emissions.electricity + emissions.landfillWaste;
+    document.getElementById("totalEmissions").innerText = `${totalEmissions.toFixed(2)}`;
+
+    // Make Report Visible for PDF Generation
+    const pdfContent = document.getElementById("report-content");
+    pdfContent.style.display = "block";
+
+    // Generate PDF
+    html2pdf()
+        .from(pdfContent)
+        .save("Carbon_Footprint_Report.pdf")
+        .then(() => {
+            pdfContent.style.display = "none"; // Hide again after conversion
+        });
 }
+
 
 
 function handleSubmitAndGenerateReport() {
+    // First submit the form data
     SubmitEventDetail();
-    SubmitSchoolDetail();  // Submit form data
+    SubmitSchoolDetail();
+
+    // Wait for form submission to complete, then generate the PDF
     setTimeout(() => {
-        generatePdf();  // Generate PDF after a short delay
-    }, 1000);  // 1-second delay to allow form submission
+        generatePDF();
+    }, 2000); // Increase delay if needed
 }
+
