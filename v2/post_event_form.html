@@ -1,176 +1,400 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post Event Submission</title>
+    <title>WWF - Carbon Footprint Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        const { jsPDF } = window.jspdf;
+    </script>
+    <script src="scripts.js" defer></script>
     <style>
-   /* General Page Styling */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* Allows scrolling if content is longer */
-    flex-direction: column; /* Stack title & form vertically */
-    overflow-y: auto; /* Enables scrolling if needed */
-}
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #fff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
 
-/* Centering the Title */
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
+        header {
+            background-color: #000;
+            padding: 15px;
+        }
 
-/* Form Container */
-#postEventForm {
-    max-width: 500px;
-    width: 100%;
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: left; /* Keeps form elements left-aligned inside */
-    margin-bottom: 30px; /* Prevents content from being cut off at the bottom */
-}
- 
-/* Labels */
-label {
-    font-weight: bold;
-    margin-top: 10px;
-    display: block;
-}
+        header img {
+            height: 70px;
+        }
 
-/* Inputs & Dropdowns */
-input, select {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+        h1 {
+            color: #78B042;
+            font-size: 2.5em;
+            text-align: center;
+            margin: 30px 10px;
+        }
 
-/* Scrollable Dropdown */
-select {
-    height: 40px;
-    overflow-y: auto;
-    appearance: none; /* Removes default styles */
-    background: #fff;
-    cursor: pointer;
-}
 
-/* Ensuring Scroll Functionality */
-#schoolName, #eventName {
-    max-height: 120px; /* Restrict height */
-    overflow-y: auto;
-    display: block;
-}
+        .content-box {
+            background-color: #f0f4ef;
+            border-left: 8px solid #78B042;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
 
-/* Submit Button */
-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
-    margin-top: 10px;
-    width: 100%;
-}
+        .highlight {
+            color: #78B042;
+            font-weight: 700;
+        }
 
-button:hover {
-    background-color: #45a049;
-}
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
 
+        ul li {
+            background: #e8f2dd;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 5px solid #78B042;
+            border-radius: 5px;
+            /* font-size: 1.1em; */
+        }
+
+        .buttons {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .button {
+            background-color: #78B042;
+            color: #fff;
+            padding: 18px 30px;
+            margin: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #5f8d35;
+        }
+
+        .illustration {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .illustration img {
+            width: 80%;
+            max-width: 500px;
+            border-radius: 12px;
+        }
+
+        footer {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 25px;
+            font-size: 14px;
+        }
+
+        .social-icons a {
+            color: #78B042;
+            margin: 0 10px;
+            font-size: 22px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .button {
+                padding: 15px 20px;
+                font-size: 16px;
+            }
+        }
+
+        #videoDiv {
+            width: 100%;
+            height: 360px;
+            position: relative;
+        }
+
+        #video1 {
+            margin: auto;
+            display: block;
+        }
+
+        #videoMessage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Form Container */
+        #postEventForm {
+            max-width: 500px;
+            width: 100%;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            /* Keeps form elements left-aligned inside */
+            margin-bottom: 30px;
+            /* Prevents content from being cut off at the bottom */
+        }
+
+        /* Labels */
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+
+        /* Inputs & Dropdowns */
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Scrollable Dropdown */
+        select {
+            height: 40px;
+            overflow-y: auto;
+            appearance: none;
+            /* Removes default styles */
+            background: #fff;
+            cursor: pointer;
+        }
+
+        /* Ensuring Scroll Functionality */
+        #schoolName,
+        #eventName {
+            max-height: 120px;
+            /* Restrict height */
+            overflow-y: auto;
+            display: block;
+        }
+
+        /* Submit Button */
+        button {
+            /* background-color: #4CAF50; */
+            background-color: #78B042;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #78B042
+                /* background-color: #45a049; */
+        }
+
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            margin-left: 25%;
+            text-align: center;
+            max-width: 600px;
+        }
     </style>
 </head>
+
 <body>
-    <h2>Post Event Submission Form</h2>
-    
-    <form id="postEventForm">
-        <label for="schoolName">School Name:</label>
-        <select id="schoolName" required>
-            <option value="">Select School</option>
-        </select>
+    <header>
+        <a href="https://www.wwfindia.org/" target="_blank"><img
+                src="https://academy.wwfindia.org/wp-content/themes/opa/assets/img/WWF_Logo.jpg"
+                alt="WWF-India Logo"></a>
+    </header>
 
-        <label for="eventName">Event Name:</label>
-        <select id="eventName" required>
-            <option value="">Select Event</option>
-        </select>
+    <div id="topContent">
+        <div style="margin: 30px; text-align: center;">
+            <a href="https://academy.wwfindia.org/" target="_blank"><img src="./opa.png" width="50%"
+                    alt="WWF One Planet Academy Logo" style="border: 1px solid #80d44d; "></a>
+            <a href="./index.html" style="text-decoration: none;">
+                <h1 style="margin-top: 15px;">Carbon Footprint Calculator</h1>
+            </a>
+        </div>
 
-        <label for="contactPersonName">Contact Person Name:</label>
-        <input type="text" id="contactPersonName" required>
 
-        <label for="contactPersonMobile">Contact Person Mobile:</label>
-        <input type="text" id="contactPersonMobile" required>
+    </div>
 
-        <label for="contactPersonEmail">Contact Person Email:</label>
-        <input type="email" id="contactPersonEmail" required>
+    <div style="margin: 20px; font-size: 19px;">
 
-        <label for="eventDate">Event Date:</label>
-        <input type="date" id="eventDate" required>
+        <div class="container">
+            <h2>Post-Event Form</h2>
+            Fill up this form to submit final data of your event to measure the impact of your efforts and to get
+            recognition from WWF-India for your efforts. <br /> <br />
 
-        <label for="eventDuration">Event Duration (in hours):</label>
-        <input type="number" id="eventDuration" required>
+            <form id="postEventForm">
+                <label for="schoolName">School Name:</label>
+                <select id="schoolName" required>
+                    <option value="">Select School</option>
+                </select>
 
-        <label for="participantsCount">Number of Participants:</label>
-        <input type="number" id="participantsCount" required>
+                <label for="eventName">Event Name:</label>
+                <select id="eventName" required>
+                    <option value="">Select Event</option>
+                </select>
 
-        <label for="electricityTypeUsage">Electricity Type Used:</label>
-        <input type="text" id="electricityTypeUsage">
+                <label for="contactPersonName">Contact Person Name:</label>
+                <input type="text" id="contactPersonName" required>
 
-        <label for="electricityUnitsUsage">Electricity Units Used:</label>
-        <input type="number" id="electricityUnitsUsage">
+                <label for="contactPersonMobile">Contact Person Mobile:</label>
+                <input type="text" id="contactPersonMobile" required>
 
-        <label for="generatorTypeUsage">Generator Type Used:</label>
-        <input type="text" id="generatorTypeUsage">
+                <label for="contactPersonEmail">Contact Person Email:</label>
+                <input type="email" id="contactPersonEmail" required>
 
-        <label for="generatorLitersUsage">Generator Fuel Used (Liters):</label>
-        <input type="number" id="generatorLitersUsage">
+                <label for="eventDate">Event Date:</label>
+                <input type="date" id="eventDate" required>
 
-        <label for="transportDieselUsage">Transport Diesel Used (Liters):</label>
-        <input type="number" id="transportDieselUsage">
+                <label for="eventDuration">Event Duration (in hours):</label>
+                <input type="number" id="eventDuration" required>
 
-        <label for="transportPetrolUsage">Transport Petrol Used (Liters):</label>
-        <input type="number" id="transportPetrolUsage">
+                <label for="participantsCount">Number of Participants:</label>
+                <input type="number" id="participantsCount" required>
 
-        <label for="transportEVUsage">Transport EV Used (kWh):</label>
-        <input type="number" id="transportEVUsage">
+                <label for="electricityTypeUsage">Electricity Type Used:</label>
+                <input type="text" id="electricityTypeUsage">
 
-        <label for="participantsUsingPublicTransport">Participants Using Public Transport:</label>
-        <input type="number" id="participantsUsingPublicTransport">
+                <label for="electricityUnitsUsage">Electricity Units Used:</label>
+                <input type="number" id="electricityUnitsUsage">
 
-        <label for="participantsUsingCarpool">Participants Using Carpool:</label>
-        <input type="number" id="participantsUsingCarpool">
+                <label for="generatorTypeUsage">Generator Type Used:</label>
+                <input type="text" id="generatorTypeUsage">
 
-        <label for="participantsUsingPrivateVehicle">Participants Using Private Vehicles:</label>
-        <input type="number" id="participantsUsingPrivateVehicle">
+                <label for="generatorLitersUsage">Generator Fuel Used (Liters):</label>
+                <input type="number" id="generatorLitersUsage">
 
-        <label for="participantsUsingCycleWalk">Participants Using Bicycle/Walking:</label>
-        <input type="number" id="participantsUsingCycleWalk">
+                <label for="transportDieselUsage">Transport Diesel Used (Liters):</label>
+                <input type="number" id="transportDieselUsage">
 
-        <label for="wasteSegregationPossibility">Waste Segregation Possible (Yes/No):</label>
-        <select id="wasteSegregationPossibility">
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-        </select>
+                <label for="transportPetrolUsage">Transport Petrol Used (Liters):</label>
+                <input type="number" id="transportPetrolUsage">
 
-        <label for="wasteCompostingPossibility">Waste Composting Possible (Yes/No):</label>
-        <select id="wasteCompostingPossibility">
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-        </select>
+                <label for="transportEVUsage">Transport EV Used (kWh):</label>
+                <input type="number" id="transportEVUsage">
 
-        <label for="wasteLandfillKilogram">Waste Sent to Landfill (Kg):</label>
-        <input type="number" id="wasteLandfillKilogram">
+                <label for="participantsUsingPublicTransport">Participants Using Public Transport:</label>
+                <input type="number" id="participantsUsingPublicTransport">
 
-        <button type="submit">Submit Post Event Report</button>
-    </form>
+                <label for="participantsUsingCarpool">Participants Using Carpool:</label>
+                <input type="number" id="participantsUsingCarpool">
 
-    <script src="post_event.js"></script> <!-- Link to your JavaScript file -->
+                <label for="participantsUsingPrivateVehicle">Participants Using Private Vehicles:</label>
+                <input type="number" id="participantsUsingPrivateVehicle">
+
+                <label for="participantsUsingCycleWalk">Participants Using Bicycle/Walking:</label>
+                <input type="number" id="participantsUsingCycleWalk">
+
+                <label for="wasteSegregationPossibility">Waste Segregation Possible (Yes/No):</label>
+                <select id="wasteSegregationPossibility">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+
+                <label for="wasteCompostingPossibility">Waste Composting Possible (Yes/No):</label>
+                <select id="wasteCompostingPossibility">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+
+                <label for="wasteLandfillKilogram">Waste Sent to Landfill (Kg):</label>
+                <input type="number" id="wasteLandfillKilogram">
+                <div style="text-align: center;">
+                    <button type="submit">Submit Post Event Data</button>
+                    <a href="./index.html" style="font-size: 14px; padding-top: 10px;">Go Back to Home Page</a>
+                </div>
+            </form>
+
+            <script src="post_event.js"></script> <!-- Link to your JavaScript file -->
+
+        </div>
+        <!-- Hidden Carbon Footprint Report for PDF -->
+        <div class="container" id="report-content" style="display: none; margin: 0 auto; text-align: left;">
+            <h1>🌍 Carbon Footprint Report</h1>
+            <p>Thank you for submitting your event data! Here is the summary of your environmental impact.</p>
+
+            <h2>📊 Emissions Summary</h2>
+            <table>
+                <tr>
+                    <th>Fuel/Source</th>
+                    <th>Usage</th>
+                    <th>Emission Factor</th>
+                    <th>Total Emission (kg CO₂e)</th>
+                </tr>
+                <tbody id="pdfTableBody"></tbody>
+                <tr>
+                    <th colspan="3">Total Emissions</th>
+                    <th style="color: red;"><span id="totalEmissions"></span> kg CO₂e</th>
+                </tr>
+            </table>
+
+            <div class="summary">
+                <strong>🌱 Recommendations:</strong>
+                <ul>
+                    <li>Consider using **renewable energy sources** to reduce electricity emissions.</li>
+                    <li>Encourage **carpooling or public transport** to lower fuel usage.</li>
+                    <li>Implement **waste reduction strategies** to decrease landfill impact.</li>
+                </ul>
+            </div>
+
+            <div class="footer">
+                <p><strong>Prepared by:</strong> WWF-India</p>
+                <p>📅 Generated on: <span id="report-date"></span></p>
+            </div>
+        </div>
+
+        <!-- Include html2pdf.js Library -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+        <script>
+            document.getElementById("report-date").innerText = new Date().toLocaleDateString();
+        </script>
+
+    </div>
+    </div>
+    <footer>
+
+        <p>© 2025 <a href="https://academy.wwfindia.org/" target="_blank" style="color:wheat">WWF Academy</a>. All
+            Rights Reserved</p>
+    </footer>
+
 </body>
+
 </html>
