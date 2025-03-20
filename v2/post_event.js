@@ -79,12 +79,12 @@ async function fetchEventDetails () {
   )
   if (!eventData) return
 
-  document.getElementById('contactPersonName').value = eventData[20] || ''
-  document.getElementById('contactPersonMobile').value = eventData[21] || ''
-  document.getElementById('contactPersonEmail').value = eventData[22] || ''
-  document.getElementById('eventDate').value = eventData[3] || ''
-  document.getElementById('eventDuration').value = eventData[4] || ''
-  document.getElementById('participantsCount').value = eventData[5] || ''
+  // document.getElementById('contactPersonName').value = eventData[20] || ''
+  // document.getElementById('contactPersonMobile').value = eventData[21] || ''
+  // document.getElementById('contactPersonEmail').value = eventData[22] || ''
+  // document.getElementById('eventDate').value = eventData[3] || ''
+  // document.getElementById('eventDuration').value = eventData[4] || ''
+  // document.getElementById('participantsCount').value = eventData[5] || ''
 }
 
 /** Submit Event Detail */
@@ -127,7 +127,10 @@ async function submitEventDetail () {
 
     fetch(FORM_BASE_URL, { method: 'POST', body: formData })
 
-    alert('Data submitted successfully!')
+    // alert('Data submitted successfully!')
+    alert(
+      'Thank you for using the calculator to make your event a carbon conscious event. We will analyse the submitted data and revert back to you.'
+    )
     document.getElementById('postEventForm').reset()
   } catch (error) {
     console.error('Unexpected error:', error)

@@ -153,8 +153,8 @@
 
         /* Form Container */
         #postEventForm {
-            max-width: 500px;
-            width: 100%;
+            /* max-width: 500px; */
+            /* width: 100%; */
             background: #ffffff;
             padding: 20px;
             border-radius: 10px;
@@ -167,15 +167,17 @@
 
         /* Labels */
         label {
-            font-weight: bold;
+            /* font-weight: bold; */
             margin-top: 10px;
             display: block;
+            /* width: 40%; */
+            font-size: 14px;
         }
 
         /* Inputs & Dropdowns */
         input,
         select {
-            width: 100%;
+
             padding: 8px;
             margin-top: 5px;
             border: 1px solid #ccc;
@@ -184,9 +186,9 @@
 
         /* Scrollable Dropdown */
         select {
-            height: 40px;
+
             overflow-y: auto;
-            appearance: none;
+            /* appearance: none; */
             /* Removes default styles */
             background: #fff;
             cursor: pointer;
@@ -220,16 +222,21 @@
                 /* background-color: #45a049; */
         }
 
-
         .container {
             background: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 50%;
+            /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+            /* width: 50%; */
             margin-left: 25%;
             text-align: center;
             max-width: 600px;
+        }
+
+        .newEntry {
+            display: inline-grid;
+            margin: 5px;
+            /* width: 50%; */
         }
     </style>
 </head>
@@ -257,89 +264,143 @@
 
         <div class="container">
             <h2>Post-Event Form</h2>
-            Fill up this form to submit final data of your event to measure the impact of your efforts and to get
-            recognition from WWF-India for your efforts. <br /> <br />
+            <p style="font-size: 0.8em; text-align: center;">Fill up this form once your event is over, and enter real
+                data to see how much carbon your event generated.
+                <i>
+                    Schools that actively track and reduce event emissions may be recognized as Climate Champion
+                    Schools!
+                </i>
+            </p>
 
             <form id="postEventForm">
-                <label for="schoolName">School Name:</label>
-                <select id="schoolName" required>
-                    <option value="">Select School</option>
-                </select>
+                <div style="text-align: center; margin: 10px;"><b>General Event Information</b></div>
 
-                <label for="eventName">Event Name:</label>
-                <select id="eventName" required>
-                    <option value="">Select Event</option>
-                </select>
-
-                <label for="contactPersonName">Contact Person Name:</label>
-                <input type="text" id="contactPersonName" required>
-
-                <label for="contactPersonMobile">Contact Person Mobile:</label>
-                <input type="text" id="contactPersonMobile" required>
-
-                <label for="contactPersonEmail">Contact Person Email:</label>
-                <input type="email" id="contactPersonEmail" required>
-
-                <label for="eventDate">Event Date:</label>
-                <input type="date" id="eventDate" required>
-
-                <label for="eventDuration">Event Duration (in hours):</label>
-                <input type="number" id="eventDuration" required>
-
-                <label for="participantsCount">Number of Participants:</label>
-                <input type="number" id="participantsCount" required>
-
-                <label for="electricityTypeUsage">Electricity Type Used:</label>
-                <input type="text" id="electricityTypeUsage">
-
-                <label for="electricityUnitsUsage">Electricity Units Used:</label>
-                <input type="number" id="electricityUnitsUsage">
-
-                <label for="generatorTypeUsage">Generator Type Used:</label>
-                <input type="text" id="generatorTypeUsage">
-
-                <label for="generatorLitersUsage">Generator Fuel Used (Liters):</label>
-                <input type="number" id="generatorLitersUsage">
-
-                <label for="transportDieselUsage">Transport Diesel Used (Liters):</label>
-                <input type="number" id="transportDieselUsage">
-
-                <label for="transportPetrolUsage">Transport Petrol Used (Liters):</label>
-                <input type="number" id="transportPetrolUsage">
-
-                <label for="transportEVUsage">Transport EV Used (kWh):</label>
-                <input type="number" id="transportEVUsage">
-
-                <label for="participantsUsingPublicTransport">Participants Using Public Transport:</label>
-                <input type="number" id="participantsUsingPublicTransport">
-
-                <label for="participantsUsingCarpool">Participants Using Carpool:</label>
-                <input type="number" id="participantsUsingCarpool">
-
-                <label for="participantsUsingPrivateVehicle">Participants Using Private Vehicles:</label>
-                <input type="number" id="participantsUsingPrivateVehicle">
-
-                <label for="participantsUsingCycleWalk">Participants Using Bicycle/Walking:</label>
-                <input type="number" id="participantsUsingCycleWalk">
-
-                <label for="wasteSegregationPossibility">Waste Segregation Possible (Yes/No):</label>
-                <select id="wasteSegregationPossibility">
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>
-
-                <label for="wasteCompostingPossibility">Waste Composting Possible (Yes/No):</label>
-                <select id="wasteCompostingPossibility">
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>
-
-                <label for="wasteLandfillKilogram">Waste Sent to Landfill (Kg):</label>
-                <input type="number" id="wasteLandfillKilogram">
-                <div style="text-align: center;">
-                    <button type="submit">Submit Post Event Data</button>
-                    <a href="./index.html" style="font-size: 14px; padding-top: 10px;">Go Back to Home Page</a>
+                <div class="newEntry"><label for="schoolName">School Name:</label>
+                    <select style="width: 250px;" id="schoolName" required>
+                        <option value="">Select School</option>
+                    </select>
                 </div>
+
+                <div class="newEntry"><label for="eventName">Event Name:</label>
+                    <select style="width: 250px;" id="eventName" required>
+                        <option value="">Select Event</option>
+                    </select>
+                </div>
+
+                <div class="newEntry"><label for="eventDate">Event Date:</label>
+                    <input style="width: 150px;" type="date" id="eventDate" required>
+                </div>
+
+                <div class="newEntry"><label for="eventDuration">Event Duration (in hours):</label>
+                    <input style="width: 150px;" type="number" id="eventDuration" required>
+                </div>
+
+                <div class="newEntry"><label for="participantsCount">Participants Count:</label>
+                    <input style="width: 150px;" type="number" id="participantsCount" required>
+                </div>
+
+                <div class="newEntry"><label for="contactPersonName">Contact Person Name:</label>
+                    <input style="width: 150px;" type="text" id="contactPersonName" required>
+                </div>
+
+                <div class="newEntry"><label for="contactPersonMobile">Contact Person Mobile:</label>
+                    <input style="width: 150px;" type="text" id="contactPersonMobile" required>
+                </div>
+
+                <div class="newEntry"><label for="contactPersonEmail">Contact Person Email:</label>
+                    <input style="width: 150px;" type="email" id="contactPersonEmail" required>
+                </div>
+
+                <hr style="color:silver; margin: 30px 0px 30px 0px;" />
+                <div style="text-align: center; margin: 10px;"><b>Energy Consumption</b></div>
+
+                <div class="newEntry"><label for="electricityTypeUsage">Electricity Type Used:</label>
+                    <select style="width: 200px; height: 34px;" id="electricityTypeUsage">
+                        <option value="grid">Grid Electricity</option>
+                        <option value="renewable">Renewable Energy</option>
+                        <option value="na">Not Applicable</option>
+                    </select>
+                </div>
+
+                <div class="newEntry"><label for="electricityUnitsUsage">Electricity Units Used:</label>
+                    <input type="number" id="electricityUnitsUsage">
+                </div>
+
+                <div class="newEntry"><label for="generatorTypeUsage">Generator Type Used:</label>
+                    <select style="width: 200px; height: 34px;" id="generatorTypeUsage">
+                        <option value="diesel">Diesel</option>
+                        <option value="petrol">Petrol</option>
+                        <option value="na">Not Applicable</option>
+                    </select>
+                </div>
+
+                <div class="newEntry"><label for="generatorLitersUsage">Generator Fuel Used (Liters):</label>
+                    <input type="number" id="generatorLitersUsage">
+                </div>
+
+                <!-- <hr style="color:rgb(232, 232, 232); margin: 30px 0px 30px 0px;" /> -->
+                <div style="text-align: center; margin: 30px 0px 10px;"><b>Event Logistics & Travel</b></div>
+
+
+
+                <div class="newEntry"><label for="transportDieselUsage">Diesel Used For Transport (Liters):</label>
+                    <input type="number" id="transportDieselUsage">
+                </div>
+
+                <div class="newEntry"><label for="transportPetrolUsage">Petrol Used For Transport (Liters):</label>
+                    <input type="number" id="transportPetrolUsage">
+                </div>
+
+                <!-- <div class="newEntry"><label for="transportEVUsage">Transport EV Used (kWh):</label>
+                    <input type="number" id="transportEVUsage">
+                </div> -->
+
+                <div class="newEntry"><label for="participantsUsingPublicTransport">How Many Participants Used Public
+                        Transport:</label>
+                    <input type="number" style="width: 300px;" id="participantsUsingPublicTransport">
+                </div>
+
+                <div class="newEntry"><label for="participantsUsingCarpool">How Many Participants Used
+                        Carpooling:</label>
+                    <input type="number" style="width: 300px;" id="participantsUsingCarpool">
+                </div>
+
+                <div class="newEntry"><label for="participantsUsingPrivateVehicle">How Many Participants Used Private
+                        Vehicles:</label>
+                    <input type="number" style="width: 300px;" id="participantsUsingPrivateVehicle">
+                </div>
+
+                <div class="newEntry"><label for="participantsUsingCycleWalk">How Many Participants Used
+                        Bicycle/Walking:</label>
+                    <input type="number" style="width: 300px;" id="participantsUsingCycleWalk">
+                </div>
+
+                <div style="text-align: center; margin: 30px 0px 10px;"><b>Waste Management</b></div>
+
+                <div class="newEntry"><label for="wasteSegregationPossibility">Waste Segregation:
+                    </label>
+                    <select id="wasteSegregationPossibility">
+                        <option value="Yes">Done</option>
+                        <option value="No">Not Done</option>
+                    </select>
+                </div>
+
+                <div class="newEntry"><label for="wasteCompostingPossibility">Waste Composting:
+                    </label>
+                    <select id="wasteCompostingPossibility">
+                        <option value="Yes">Done</option>
+                        <option value="No">Not Done</option>
+                    </select>
+                </div>
+
+                <div class="newEntry"><label for="wasteLandfillKilogram">Waste Sent to Landfill (Kg):</label>
+                    <input type="number" id="wasteLandfillKilogram">
+                </div>
+                <div style="text-align: center; margin-top: 30px;">
+                    <button style="margin-bottom: 10px;" type="submit">Submit Post Event Data</button>
+                    <a href="./index.html" style="font-size: 14px;">Go Back to Home Page</a>
+                </div>
+
             </form>
 
             <script src="post_event.js"></script> <!-- Link to your JavaScript file -->
