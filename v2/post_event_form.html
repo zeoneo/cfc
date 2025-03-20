@@ -7,6 +7,8 @@
     <title>WWF - Carbon Footprint Calculator</title>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <script>
         const { jsPDF } = window.jspdf;
     </script>
@@ -158,7 +160,7 @@
             background: #ffffff;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.1);
             text-align: left;
             /* Keeps form elements left-aligned inside */
             margin-bottom: 30px;
@@ -263,7 +265,14 @@
     <div style="margin: 20px; font-size: 19px;">
 
         <div class="container">
-            <h2>Post-Event Form</h2>
+            <h2>Post-Event Form
+                <!-- <i class="fa fa-print" style="padding-left:10px; font-size:20px" title="Print this form"
+                    onclick="window.print()"></i>
+                <i class="fa fa-question-circle" style="padding-left:10px; font-size:16px" title="Help"
+                    onclick="alert('You can ')"></i> -->
+            </h2>
+
+
             <p style="font-size: 0.8em; text-align: center;">Fill up this form once your event is over, and enter real
                 data to see how much carbon your event generated and how much could be prevented.
                 <br /><br />
@@ -271,6 +280,13 @@
                     Schools that actively track and reduce event emissions may be recognized as Climate Champion
                     Schools!
                 </i>
+
+                <br /><br />
+                <i class="fa fa-print" style="padding:10px; font-size:14px; cursor:pointer;" title="Print this form"
+                    onclick="window.print()">&nbsp Print this form</i>
+                <i class="fa fa-question-circle" style="padding:10px; font-size:14px; cursor:pointer" title="Help"
+                    onclick="alert('Kindly provide the actual data from the event here. You can choose to skip the input boxes for which the data is not available with you.')">&nbsp
+                    Help</i>
             </p>
 
             <form id="postEventForm">
