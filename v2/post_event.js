@@ -125,6 +125,79 @@ async function submitEventDetail () {
     )
     formData.append('entry.2108547846', 'Post-event')
 
+    formData.append(
+      'entry.1047405020',
+      document.getElementById('participantsCount').value
+    )
+    //https://docs.google.com/forms/d/e/1FAIpQLSfWOWlZ9IIrP1wfZ9XgzbF2cbdkQdbHqWBzvUHEEOlViA2k2w/viewform?usp=pp_url&
+    // entry.493368372=schoolName&
+    // entry.87921043=eventName&
+    // entry.646415086=contactPersonName&
+    // entry.1310405729=contactPersonMobile&
+    // entry.376730094=contactPersonEmail&
+    // entry.1814042066=eventDate&
+    // entry.1221970040=eventDuration&
+    // entry.1047405020=participantsCount&
+
+    formData.append(
+      'entry.605181714',
+      document.getElementById('electricityTypeUsage').value
+    ) // =electricityTypeUsage&
+    formData.append(
+      'entry.947010150',
+      document.getElementById('electricityUnitsUsage').value
+    ) // =electricityUnitsUsage&
+    formData.append(
+      'entry.1100991259',
+      document.getElementById('generatorTypeUsage').value
+    ) // =generatorTypeUsage&
+    formData.append(
+      'entry.1046566004',
+      document.getElementById('generatorLitersUsage').value
+    ) // =generatorLitersUsage&
+    formData.append(
+      'entry.1289781962',
+      document.getElementById('transportDieselUsage').value
+    ) // =transportDieselUsage&
+    formData.append(
+      'entry.73047054',
+      document.getElementById('transportPetrolUsage').value
+    ) // =transportPetrolUsage&
+    formData.append(
+      'entry.1313536288',
+      '0'
+      //document.getElementById('transportEVUsage').value
+    ) // =transportEVUsage&
+    formData.append(
+      'entry.413821880',
+      document.getElementById('participantsUsingPublicTransport').value
+    ) // =participantsUsingPublicTransport&
+    formData.append(
+      'entry.79051389',
+      document.getElementById('participantsUsingCarpool').value
+    ) // =participantsUsingCarpool&
+    formData.append(
+      'entry.814786714',
+      document.getElementById('participantsUsingPrivateVehicle').value
+    ) // =participantsUsingPrivateVehicle&
+    formData.append(
+      'entry.1177172054',
+      document.getElementById('participantsUsingCycleWalk').value
+    ) // =participantsUsingCyleWalk&
+    formData.append(
+      'entry.600183046',
+      document.getElementById('wasteSegregationPossibility').value
+    ) // =wasteSegregationPossibility&
+    formData.append(
+      'entry.1578498963',
+      document.getElementById('wasteCompostingPossibility').value
+    ) // =wasteCompostingPossibility&
+    formData.append(
+      'entry.382187960',
+      document.getElementById('wasteLandfillKilogram').value
+    ) // =wasteLandfillKilogram
+
+    console.log(formData)
     fetch(FORM_BASE_URL, { method: 'POST', body: formData })
 
     // alert('Data submitted successfully!')
