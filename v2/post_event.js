@@ -1,6 +1,7 @@
 const API_KEY = 'AIzaSyCzMfTwlGOJQKrTI4_7LtIJSbzGDboHfwQ'
 const SPREADSHEET_ID = '1bO5zY26LA5bx01RApjrik6QOmBU4dOVDlFQHRu5QWaI'
-const SHEET_NAME = 'Form Responses 2'
+// const SHEET_NAME = 'Form Responses 2'
+const SHEET_NAME = 'EventDataEntries'
 const FORM_BASE_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLSfWOWlZ9IIrP1wfZ9XgzbF2cbdkQdbHqWBzvUHEEOlViA2k2w/formResponse?&submit=Submit?usp=pp_url'
 
