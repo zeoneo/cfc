@@ -256,17 +256,17 @@ function generatePDF () {
         </tr>
         <tr>
             <td>Electricity</td>
-            <td>${
+            <td>${Number(
               document.getElementById('electricityUnitsUsage').value
-            } kWh</td>
+            )} kWh</td>
             <td>0.653 kg CO₂/kWh</td>
             <td>${emissions.electricity.toFixed(2)} kg CO₂</td>
         </tr>
         <tr>
             <td>Landfill Waste</td>
-            <td>${
+            <td>${Number(
               document.getElementById('wasteLandfillKilogram').value
-            } kg</td>
+            )} kg</td>
             <td>7.45 kg CO₂e/kg</td>
             <td>${emissions.landfillWaste.toFixed(2)} kg CO₂</td>
         </tr>
@@ -286,7 +286,7 @@ function generatePDF () {
   const pdfContent = document.getElementById('report-content')
   pdfContent.style.display = 'block'
 
-  //// Generate PDF
+  // Generate PDF
   //   html2pdf()
   //     .from(pdfContent)
   //     .save('Carbon_Footprint_Report.pdf')

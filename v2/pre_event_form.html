@@ -54,7 +54,7 @@
             font-weight: 700;
         }
 
-        ul {
+        /* ul {
             list-style: none;
             padding-left: 0;
         }
@@ -68,7 +68,7 @@
             /* font-size: 1.1em; */
         }
 
-        .buttons {
+        */ .buttons {
             text-align: center;
             margin: 40px 0;
         }
@@ -242,6 +242,15 @@
             margin: 5px;
             /* width: 50%; */
         }
+
+        table,
+        th,
+        tr,
+        td {
+            border: solid 1px silver;
+            border-collapse: collapse;
+            padding: 10px;
+        }
     </style>
 </head>
 
@@ -266,14 +275,14 @@
 
     <div style="margin: 20px; font-size: 19px;">
 
+        <h2 style="text-align: center;">Pre-Event Form
+            <!-- <i class="fa fa-print" style="padding-left:10px; font-size:20px" title="Print this form"
+                onclick="window.print()"></i>
+            <i class="fa fa-question-circle" style="padding-left:10px; font-size:16px" title="Help"
+                onclick="alert('You can ')"></i> -->
+        </h2>
 
-        <div class="container">
-            <h2>Pre-Event Form
-                <!-- <i class="fa fa-print" style="padding-left:10px; font-size:20px" title="Print this form"
-                    onclick="window.print()"></i>
-                <i class="fa fa-question-circle" style="padding-left:10px; font-size:16px" title="Help"
-                    onclick="alert('You can ')"></i> -->
-            </h2>
+        <div class="container" id="form-content" style="display: block;">
 
 
             <p style="font-size: 0.8em; text-align: center;">Fill up this form to plan your event by getting an estimate
@@ -451,9 +460,11 @@
 
 
         <!-- Hidden Carbon Footprint Report for PDF -->
-        <div class="container" id="report-content" style="display: none; margin: 0 auto; text-align: left;">
-            <h1>🌍 Carbon Footprint Report</h1>
-            <p>Thank you for submitting your event data! Here is the summary of your environmental impact.</p>
+        <div class="container" id="report-content"
+            style="display: none; margin: 0 auto; text-align: left; font-size: 0.9em; padding: 10px; border: 1px solid silver;">
+            <h1 style="font-size: 2em;">🌍 Carbon Footprint Report</h1>
+            <p>Thank you for submitting your event's estimated data! Here is the summary of carbon footprint of your
+                event based on the inputs provided.</p>
 
             <h2>📊 Emissions Summary</h2>
             <table>
@@ -471,12 +482,38 @@
             </table>
 
             <div class="summary">
-                <strong>🌱 Recommendations:</strong>
-                <ul>
-                    <li>Consider using **renewable energy sources** to reduce electricity emissions.</li>
-                    <li>Encourage **carpooling or public transport** to lower fuel usage.</li>
-                    <li>Implement **waste reduction strategies** to decrease landfill impact.</li>
-                </ul>
+
+                <section class="">
+                    <h2>🌱 Strategies to Reduce Carbon Footprint</h2>
+
+                    <h3>1. Energy Efficiency Measures</h3>
+                    <ul>
+                        <li>Increase the use of renewable energy sources.</li>
+                        <li>Optimize event duration to minimize electricity use.</li>
+                        <li>Avoid unnecessary generator usage.</li>
+                    </ul>
+
+                    <h3>2. Sustainable Travel Practices</h3>
+                    <ul>
+                        <li>Encourage participants to use public transport or carpool.</li>
+                        <li>Provide incentives for cycling and walking.</li>
+                        <li>Promote electric vehicle use for school transport.</li>
+                    </ul>
+
+                    <h3>3. Enhanced Waste Management</h3>
+                    <ul>
+                        <li>Implement a strict waste segregation policy.</li>
+                        <li>Promote composting and recycling initiatives.</li>
+                        <li>Reduce single-use plastics and encourage reusable materials.</li>
+                    </ul>
+
+                    <h3>4. Offsetting Carbon Footprint</h3>
+                    <ul>
+                        <li>Organize tree-planting activities to offset emissions.</li>
+                        <li>Encourage schools to adopt carbon-neutral practices.</li>
+                    </ul>
+                </section>
+
             </div>
 
             <div class="footer">
