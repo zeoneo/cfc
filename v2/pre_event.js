@@ -178,7 +178,7 @@ function SubmitEventDetail () {
         &entry.2108547846=${eventStage}`
     var finalFormURL = `${formBaseUrl}${formUrlQueryParam}`
     submitDataToGoogleForms(finalFormURL)
-    alert('Data submitted successfully.')
+    alert('Data submitted successfully. Generating the report now.')
   } catch (e) {
     console.error(e)
     alert('Some error occured! Please try after some time...')

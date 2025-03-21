@@ -7,6 +7,7 @@
     <title>WWF - Carbon Footprint Calculator</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
@@ -448,7 +449,9 @@
                 </div>
                 <div style="text-align: center; margin-top: 30px;">
                     <!-- <button style="margin-bottom: 10px;" type="submit">Submit and Create Report</button> -->
-                    <button type="button" style="margin-bottom: 10px;" onclick="handleSubmitAndGenerateReport()">Submit
+                    <button type="button" style="margin-bottom: 10px;"
+                        onclick="if(document.getElementById('postEventForm').checkValidity()) { handleSubmitAndGenerateReport(); } else { document.getElementById('postEventForm').reportValidity(); }">
+                        Submit
                         and Create Report</button>
 
                     <a href="./index.html" style="font-size: 14px;">Go Back to Home Page</a>
@@ -520,7 +523,131 @@
                 <p><strong>Prepared by:</strong> WWF-India</p>
                 <p>📅 Generated on: <span id="report-date"></span></p>
             </div>
+            <div style="text-align: center;"><button style="width: auto; padding: 20px;" id="downloadBtn">Download Full
+                    PDF
+                    Report</button></div>
         </div>
+
+        <script>
+            document.getElementById('downloadBtn').addEventListener('click', function () {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('p', 'mm', 'a4');
+                const lineHeight = 7;
+                let y = 15;
+
+                const reportText = `WWF India - Carbon Footprint Analysis Report
+        1. Introduction
+        This report presents an analysis of the carbon footprint associated with the event conducted in partnership with pilot schools in Delhi. The data is gathered through pre-event and post-event surveys to assess the environmental impact and suggest actionable recommendations for reducing the carbon footprint.
+        
+        2. Event Overview
+        Event Name: [Event Name]
+        Date: [Event Date]
+        Duration: [Duration in hours/days]
+        Number of Participants: [Number of Participants]
+        Organizing Details: [Details of Organizers]
+        Interpretation & Impact:
+        The scale and duration of the event influence energy consumption, travel emissions, and waste generation. A well-planned sustainability approach can significantly mitigate the environmental impact.
+        
+        3. Energy Consumption Analysis
+        Pre-Event Energy Estimates:
+        Source of electricity: [Grid/Renewable]
+        Estimated electricity consumption: [Units]
+        Generator Usage:
+        Fuel Type: [Diesel/Petrol]
+        Estimated Hours of Operation: [Hours]
+        Post-Event Energy Consumption:
+        Total electricity consumed: [Units]
+        Actual generator usage:
+        Fuel Type: [Diesel/Petrol]
+        Amount of Fuel Consumed: [Liters]
+        Interpretation & Impact:
+        Electricity consumption contributes to carbon emissions depending on the source of power. If renewable energy was used, the carbon footprint is reduced. Generators using fossil fuels contribute to greenhouse gas emissions and should be minimized.
+        
+        4. Transportation & Travel Impact
+        Pre-Event Travel Estimates:
+        Transport Modes Used by Participants:
+        Public Transport: [Percentage/Number]
+        Carpooling: [Percentage/Number]
+        Private Vehicles: [Percentage/Number]
+        Walking/Cycling: [Percentage/Number]
+        Estimated Fuel Consumption:
+        Diesel: [Liters]
+        Petrol: [Liters]
+        Average Travel Distance (per mode): [Kilometers]
+        Post-Event Travel Data:
+        Total Number of Vehicles Used: [Number]
+        Fuel Consumed:
+        Diesel: [Liters]
+        Petrol: [Liters]
+        Number of Participants by Travel Mode:
+        Public Transport: [Number]
+        Carpooling: [Number]
+        Private Vehicles: [Number]
+        Walking/Cycling: [Number]
+        Total Distance Traveled: [Kilometers]
+        Interpretation & Impact:
+        Travel is a significant contributor to carbon emissions. Increased reliance on public transport and carpooling helps reduce per capita emissions. Encouraging cycling and walking for short distances contributes to sustainability.
+        
+        5. Waste Management
+        Pre-Event Waste Planning:
+        Waste Segregation Plan: [Yes/No]
+        Composting/Recycling Initiatives: [Yes/No]
+        Estimated Waste Sent to Landfill: [Kilograms]
+        Post-Event Waste Analysis:
+        Total Waste Generated: [Kilograms]
+        Waste Segregation Implemented: [Yes/No]
+        Amount Composted/Recycled: [Kilograms]
+        Amount Sent to Landfill: [Kilograms]
+        Interpretation & Impact:
+        Effective waste management reduces landfill waste and methane emissions. Proper segregation and composting help recycle valuable resources and promote sustainability.
+        
+        6. Carbon Footprint Estimation
+        Energy Consumption Emissions: [kg CO2 equivalent]
+        Transportation Emissions: [kg CO2 equivalent]
+        Waste-related Emissions: [kg CO2 equivalent]
+        Total Estimated Carbon Footprint: [kg CO2 equivalent]
+        Interpretation & Impact:
+        By estimating emissions, we can identify the largest sources of carbon footprint and take targeted measures to reduce them in future events. Switching to renewable energy, using sustainable transport options, and managing waste effectively can lead to a measurable reduction in emissions.
+        
+        7. Sustainability Initiatives & Recommendations
+        Energy Efficiency Measures:
+        Increase the use of renewable energy sources.
+        Optimize event duration to minimize electricity use.
+        Avoid unnecessary generator usage.
+        Sustainable Travel Practices:
+        Encourage participants to use public transport or carpool.
+        Provide incentives for cycling and walking.
+        Promote electric vehicle use for school transport.
+        Enhanced Waste Management:
+        Implement a strict waste segregation policy.
+        Promote composting and recycling initiatives.
+        Reduce single-use plastics and encourage reusable materials.
+        Offsetting Carbon Footprint:
+        Organize tree-planting activities to offset emissions.
+        Encourage schools to adopt carbon-neutral practices.
+        
+        8. Conclusion
+        This analysis highlights key areas where sustainable practices can significantly reduce the event’s environmental impact. By incorporating the recommendations above, schools and organizers can take proactive steps toward a greener future. The insights from this report should guide future events to be more eco-friendly and set an example for sustainability-driven initiatives.
+        
+        Acknowledgments
+        This report has been prepared by WWF India in collaboration with participating schools in Delhi. Special thanks to all stakeholders for their efforts in making this initiative a success.
+        `;
+
+                // Add text in chunks to avoid overflow
+                const lines = doc.splitTextToSize(reportText, 180); // wrap at 180 mm width
+                lines.forEach(line => {
+                    if (y > 280) { // Page break threshold
+                        doc.addPage();
+                        y = 15;
+                    }
+                    doc.text(line, 15, y);
+                    y += lineHeight;
+                });
+
+                // Download the PDF
+                doc.save('WWF_Carbon_Footprint_Report.pdf');
+            });
+        </script>
 
         <!-- Include html2pdf.js Library -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
