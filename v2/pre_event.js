@@ -92,33 +92,39 @@ populateSchoolList()
 
 //////////////
 
-function SubmitSchoolDetail () {
-  try {
-    var formData = {
-      schoolName: document.getElementById('schoolName').value,
-      eventName: document.getElementById('eventName').value,
-      contactPersonName: document.getElementById('contactPersonName').value,
-      contactPersonMobile: document.getElementById('contactPersonMobile').value,
-      contactPersonEmail: document.getElementById('contactPersonEmail').value
-    }
+// function SubmitSchoolDetail () {
+//   try {
+//     var formData = {
+//       schoolName: document.getElementById('schoolName').value,
+//       eventName: document.getElementById('eventName').value,
+//       contactPersonName: document.getElementById('contactPersonName').value,
+//       contactPersonMobile: document.getElementById('contactPersonMobile').value,
+//       contactPersonEmail: document.getElementById('contactPersonEmail').value
+//     }
 
-    var formBaseUrl =
-      'https://docs.google.com/forms/d/e/1FAIpQLSc4YJ4TaypFCQW5SmQu0IgOjN9cQ4c0NDXmxV_TwuGMoyDoHw/formResponse?&submit=Submit?usp=pp_url'
-    var formUrlQueryParam = `&entry.1592400501=${formData.schoolName}&entry.1508901532=${formData.eventName}&entry.1908189056=${formData.contactPersonName}&entry.816139128=${formData.contactPersonMobile}&entry.372750268=${formData.contactPersonEmail}`
-    var finalFormURL = `${formBaseUrl}${formUrlQueryParam}`
-    submitDataToGoogleForms(finalFormURL)
-    alert('Data submitted successfully.')
-  } catch (e) {
-    console.error(e)
-    alert('Some error occured! Please try after some time...')
-  }
-}
+//     var formBaseUrl =
+//       'https://docs.google.com/forms/d/e/1FAIpQLSc4YJ4TaypFCQW5SmQu0IgOjN9cQ4c0NDXmxV_TwuGMoyDoHw/formResponse?&submit=Submit?usp=pp_url'
+//     var formUrlQueryParam = `&entry.1592400501=${formData.schoolName}&entry.1508901532=${formData.eventName}&entry.1908189056=${formData.contactPersonName}&entry.816139128=${formData.contactPersonMobile}&entry.372750268=${formData.contactPersonEmail}`
+//     var finalFormURL = `${formBaseUrl}${formUrlQueryParam}`
+//     submitDataToGoogleForms(finalFormURL)
+//     alert('Data submitted successfully.')
+//   } catch (e) {
+//     console.error(e)
+//     alert('Some error occured! Please try after some time...')
+//   }
+// }
 
 function SubmitEventDetail () {
   try {
     var formData = {
-      schoolName: document.getElementById('schoolName').value,
-      eventName: document.getElementById('eventName').value,
+      schoolName:
+        document.getElementById('schoolName').value === 'RegisterSchoolNow'
+          ? document.getElementById('newSchoolName').value
+          : document.getElementById('schoolName').value,
+      eventName:
+        document.getElementById('eventName').value === 'RegisterEventNow'
+          ? document.getElementById('newEventName').value
+          : document.getElementById('eventName').value,
       contactPersonName: document.getElementById('contactPersonName').value,
       contactPersonMobile: document.getElementById('contactPersonMobile').value,
       contactPersonEmail: document.getElementById('contactPersonEmail').value,
@@ -136,7 +142,7 @@ function SubmitEventDetail () {
         .value,
       transportPetrolUsage: document.getElementById('transportPetrolUsage')
         .value,
-      transportEVUsage: document.getElementById('transportEvUsage').value,
+      transportEVUsage: 0, // document.getElementById('transportEvUsage').value,
       participantsUsingPublicTransport: document.getElementById(
         'participantsUsingPublicTransport'
       ).value,
@@ -147,7 +153,7 @@ function SubmitEventDetail () {
         'participantsUsingPrivateVehicle'
       ).value,
       participantsUsingCyleWalk: document.getElementById(
-        'participantsUsingCycleOrWalk'
+        'participantsUsingCycleWalk'
       ).value,
       wasteSegregationPossibility: document.getElementById(
         'wasteSegregationPossibility'
@@ -207,19 +213,30 @@ function generatePDF () {
     landfillWaste: 7.455 // kg CO₂e per kg waste
   }
 
+  let petrolTotal =
+    Number(document.getElementById('transportPetrolUsage').value) +
+    (document.getElementById('generatorTypeUsage').value === 'petrol'
+      ? Number(document.getElementById('generatorLitersUsage').value)
+      : 0)
+
+  let dieselTotal =
+    Number(document.getElementById('transportDieselUsage').value) +
+    (document.getElementById('generatorTypeUsage').value === 'diesel'
+      ? Number(document.getElementById('generatorLitersUsage').value)
+      : 0)
+
+  console.log(petrolTotal)
+  console.log(dieselTotal)
+
   // Get Input Values from Form
   const emissions = {
-    petrol:
-      document.getElementById('transportPetrolUsage').value *
-      emissionFactors.petrol,
-    diesel:
-      document.getElementById('transportDieselUsage').value *
-      emissionFactors.diesel,
+    petrol: Number(petrolTotal) * emissionFactors.petrol,
+    diesel: Number(dieselTotal) * emissionFactors.diesel,
     electricity:
-      document.getElementById('electricityUnitsUsage').value *
+      Number(document.getElementById('electricityUnitsUsage').value) *
       emissionFactors.electricity,
     landfillWaste:
-      document.getElementById('wasteLandfillKilogram').value *
+      Number(document.getElementById('wasteLandfillKilogram').value) *
       emissionFactors.landfillWaste
   }
 
@@ -227,13 +244,13 @@ function generatePDF () {
   document.getElementById('pdfTableBody').innerHTML = `
         <tr>
             <td>Petrol</td>
-            <td>${document.getElementById('transportPetrolUsage').value} L</td>
+            <td>${petrolTotal} L</td>
             <td>2.27 kg CO₂/liter</td>
             <td>${emissions.petrol.toFixed(2)} kg CO₂</td>
         </tr>
         <tr>
             <td>Diesel</td>
-            <td>${document.getElementById('transportDieselUsage').value} L</td>
+            <td>${dieselTotal} L</td>
             <td>2.64 kg CO₂/liter</td>
             <td>${emissions.diesel.toFixed(2)} kg CO₂</td>
         </tr>
@@ -269,19 +286,19 @@ function generatePDF () {
   const pdfContent = document.getElementById('report-content')
   pdfContent.style.display = 'block'
 
-  // Generate PDF
-  html2pdf()
-    .from(pdfContent)
-    .save('Carbon_Footprint_Report.pdf')
-    .then(() => {
-      pdfContent.style.display = 'none' // Hide again after conversion
-    })
+  //// Generate PDF
+  //   html2pdf()
+  //     .from(pdfContent)
+  //     .save('Carbon_Footprint_Report.pdf')
+  //     .then(() => {
+  //       pdfContent.style.display = 'none' // Hide again after conversion
+  //     })
 }
 
 function handleSubmitAndGenerateReport () {
   // First submit the form data
   SubmitEventDetail()
-  SubmitSchoolDetail()
+  //   SubmitSchoolDetail()
 
   // Wait for form submission to complete, then generate the PDF
   setTimeout(() => {

@@ -5,8 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WWF - Carbon Footprint Calculator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script>
         const { jsPDF } = window.jspdf;
     </script>
@@ -151,57 +155,92 @@
             height: 100%;
         }
 
-        .container {
-            background: white;
+        /* Form Container */
+        #postEventForm {
+            /* max-width: 500px; */
+            /* width: 100%; */
+            background: #ffffff;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 50%;
-            margin-left: 25%;
-            text-align: center;
-            max-width: 600px;
-        }
-
-        h2 {
-            /* color: #00796b; */
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        label {
-            width: 80%;
+            border-radius: 10px;
+            box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.1);
             text-align: left;
-            margin-top: 10px;
-            font-weight: bold;
+            /* Keeps form elements left-aligned inside */
+            margin-bottom: 30px;
+            /* Prevents content from being cut off at the bottom */
         }
 
-        input {
-            width: 80%;
+        /* Labels */
+        label {
+            /* font-weight: bold; */
+            margin-top: 10px;
+            display: block;
+            /* width: 40%; */
+            font-size: 14px;
+        }
+
+        /* Inputs & Dropdowns */
+        input,
+        select {
+
             padding: 8px;
-            margin: 5px 0;
+            margin-top: 5px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
 
-        button {
-            width: 50%;
-            /* margin-left: 25%; */
-            padding: 10px;
-            margin-top: 20px;
-            background-color: #78B042;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
+        /* Scrollable Dropdown */
+        select {
+
+            overflow-y: auto;
+            /* appearance: none; */
+            /* Removes default styles */
+            background: #fff;
             cursor: pointer;
         }
 
+        /* Ensuring Scroll Functionality */
+        #schoolName,
+        #eventName {
+            max-height: 120px;
+            /* Restrict height */
+            overflow-y: auto;
+            display: block;
+        }
+
+        /* Submit Button */
+        button {
+            /* background-color: #4CAF50; */
+            background-color: #78B042;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-top: 10px;
+            width: 100%;
+        }
+
         button:hover {
-            /* background-color: #005a4a; */
+            background-color: #78B042
+                /* background-color: #45a049; */
+        }
+
+        .container {
+            background: white;
+            /* padding: 20px; */
+            border-radius: 8px;
+            /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+            /* width: 50%; */
+            margin: 0 auto;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .newEntry {
+            display: inline-grid;
+            margin: 5px;
+            /* width: 50%; */
         }
     </style>
 </head>
@@ -227,84 +266,190 @@
 
     <div style="margin: 20px; font-size: 19px;">
 
+
         <div class="container">
-            <h2>Pre-Event Form</h2>
-            Fill up this form to plan your event by getting an estimate of your event's carbon footprint and
-            recommendations for reducing it. <br /> <br />
-            <form>
-                <label for="schoolName">School Name:</label>
-                <input list="schoolList" id="schoolName" autocomplete="off" required>
-                <datalist id="schoolList"></datalist>
+            <h2>Pre-Event Form
+                <!-- <i class="fa fa-print" style="padding-left:10px; font-size:20px" title="Print this form"
+                    onclick="window.print()"></i>
+                <i class="fa fa-question-circle" style="padding-left:10px; font-size:16px" title="Help"
+                    onclick="alert('You can ')"></i> -->
+            </h2>
 
-                <label for="eventName">Event Name:</label>
-                <input list="eventList" id="eventName" autocomplete="off" required>
-                <datalist id="eventList"></datalist>
 
-                <label for="contactPersonName">Contact Person Name:</label>
-                <input type="text" id="contactPersonName" required>
+            <p style="font-size: 0.8em; text-align: center;">Fill up this form to plan your event by getting an estimate
+                of your event's carbon footprint and
+                recommendations for reducing it.
+                <br /><br />
+                <i>
+                    Schools that actively track and reduce event emissions may be recognized as Climate Champion
+                    Schools!
+                </i>
 
-                <label for="contactPersonMobile">Contact Person Mobile:</label>
-                <input type="number" id="contactPersonMobile" required>
+                <br /><br />
+                <i class="fa fa-print" style="padding:10px; font-size:14px; cursor:pointer;" title="Print this form"
+                    onclick="window.print()">&nbsp Print this form</i>
+                <i class="fa fa-question-circle" style="padding:10px; font-size:14px; cursor:pointer" title="Help"
+                    onclick="alert('For planning a Carbon Conscious event at your School, you can provide the estimated data for the event here to see get an idea of carbon footprint based on it and how to reduce it. You can choose to skip the input boxes for which the data estimation is not available with you.')">&nbsp
+                    Help</i>
+            </p>
 
-                <label for="contactPersonEmail">Contact Person Email:</label>
-                <input type="email" id="contactPersonEmail" required>
+            <form id="postEventForm">
+                <div style="text-align: center; margin: 10px;"><b>General Event Information</b>
 
-                <label for="eventDate">Event Date:</label>
-                <input type="date" id="eventDate" required>
+                </div>
 
-                <label for="eventDuration">Event Duration:</label>
-                <input type="text" id="eventDuration" required>
+                <div class="newEntry"><label for="schoolName">School Name: <i class="fa fa-info-circle"
+                            style=" font-size:14px;"
+                            title="Select the school & event name if its already registered, or register them now!"
+                            onclick="alert('Select the school & event name if its already registered, or register them now!')">
+                        </i></label>
+                    <select style="width: 250px;" id="schoolName" class="required">
+                        <option value="">Select School</option>
+                    </select>
+                    <input style="width: 235px; display: none;" id="newSchoolName"
+                        placeholder="Provide New School Name Here">
+                </div>
 
-                <label for="participantsCount">Participants Count:</label>
-                <input type="number" id="participantsCount" required>
+                <div class="newEntry"><label for="eventName">Event Name: <i class="fa fa-info-circle"
+                            style=" font-size:14px;"
+                            title="Select the school & event name if its already registered, or register them now!"
+                            onclick="alert('Select the school & event name if its already registered, or register them now!')">
+                        </i></label>
+                    <select style="width: 250px;" id="eventName" class="required">
+                        <option value="">Select Event</option>
+                    </select>
+                    <input style="width: 235px;display: none;" id="newEventName"
+                        placeholder="Provide New Event Name Here">
+                </div>
 
-                <label for="electricityTypeUsage">Electricity Type Usage:</label>
-                <input type="text" id="electricityTypeUsage" required>
+                <div class="newEntry"><label for="eventDate">Event Date:</label>
+                    <input style="width: 150px;" type="date" id="eventDate" class="required">
+                </div>
 
-                <label for="electricityUnitsUsage">Electricity Units Usage:</label>
-                <input type="number" id="electricityUnitsUsage" required>
+                <div class="newEntry"><label for="eventDuration">Event Duration (in hours):</label>
+                    <input style="width: 150px;" type="number" id="eventDuration" class="required">
+                </div>
 
-                <label for="generatorTypeUsage">Generator Type Usage:</label>
-                <input type="text" id="generatorTypeUsage" required>
+                <div class="newEntry"><label for="participantsCount">Participants Count:</label>
+                    <input style="width: 150px;" type="number" id="participantsCount" class="required">
+                </div>
 
-                <label for="generatorLitersUsage">Generator Liters Usage:</label>
-                <input type="number" id="generatorLitersUsage" required>
+                <div class="newEntry"><label for="contactPersonName">Contact Person Name:</label>
+                    <input style="width: 150px;" type="text" id="contactPersonName" class="required">
+                </div>
 
-                <label for="transportDieselUsage">Transport Diesel Usage:</label>
-                <input type="number" id="transportDieselUsage" required>
+                <div class="newEntry"><label for="contactPersonMobile">Contact Person Mobile:</label>
+                    <input style="width: 150px;" type="text" id="contactPersonMobile" class="required">
+                </div>
 
-                <label for="transportPetrolUsage">Transport Petrol Usage:</label>
-                <input type="number" id="transportPetrolUsage" required>
+                <div class="newEntry"><label for="contactPersonEmail">Contact Person Email:</label>
+                    <input style="width: 150px;" type="email" id="contactPersonEmail" class="required">
+                </div>
 
-                <label for="transportEvUsage">Transport EV Usage:</label>
-                <input type="number" id="transportEvUsage" required>
+                <hr style="color:silver; margin: 30px 0px 30px 0px;" />
+                <div style="text-align: center; margin: 10px;"><b>Energy Consumption</b></div>
 
-                <label for="participantsUsingPublicTransport">Participants Using Public Transport:</label>
-                <input type="number" id="participantsUsingPublicTransport" required>
+                <div class="newEntry"><label for="electricityTypeUsage">Electricity Type Available:</label>
+                    <select style="width: 200px; height: 34px;" id="electricityTypeUsage">
+                        <option value="grid">Grid Electricity</option>
+                        <option value="renewable">Renewable Energy</option>
+                        <option value="na">Not Applicable</option>
+                    </select>
+                </div>
 
-                <label for="participantsUsingCarpool">Participants Using Carpool:</label>
-                <input type="number" id="participantsUsingCarpool" required>
+                <div class="newEntry"><label for="electricityUnitsUsage">Electricity Usage Estimation (Units):</label>
+                    <input type="number" id="electricityUnitsUsage">
+                </div>
 
-                <label for="participantsUsingPrivateVehicle">Participants Using Private Vehicle:</label>
-                <input type="number" id="participantsUsingPrivateVehicle" required>
+                <div class="newEntry"><label for="generatorTypeUsage">Generator Type Available:</label>
+                    <select style="width: 200px; height: 34px;" id="generatorTypeUsage">
+                        <option value="diesel">Diesel</option>
+                        <option value="petrol">Petrol</option>
+                        <option value="na">Not Applicable</option>
+                    </select>
+                </div>
 
-                <label for="participantsUsingCycleOrWalk">Participants Using Cycle or Walk:</label>
-                <input type="number" id="participantsUsingCycleOrWalk" required>
+                <div class="newEntry"><label for="generatorLitersUsage">Generator Fuel Usage Estimation
+                        (Liters):</label>
+                    <input type="number" id="generatorLitersUsage">
+                </div>
 
-                <label for="wasteSegregationPossibility">Waste Segregation Possibility:</label>
-                <input type="checkbox" id="wasteSegregationPossibility">
+                <!-- <hr style="color:rgb(232, 232, 232); margin: 30px 0px 30px 0px;" /> -->
+                <div style="text-align: center; margin: 30px 0px 10px;"><b>Event Logistics & Travel</b></div>
 
-                <label for="wasteCompostingPossibility">Waste Composting Possibility:</label>
-                <input type="text" id="wasteCompostingPossibility" required>
 
-                <label for="wasteLandfillKilogram">Waste Landfill Kilogram:</label>
-                <input type="number" id="wasteLandfillKilogram" required>
 
-                <button type="button" onclick="handleSubmitAndGenerateReport()">Submit and Create Report</button>
+                <div class="newEntry"><label for="transportDieselUsage">Diesel Usage (For Transport) Estimation
+                        (Liters):</label>
+                    <input type="number" id="transportDieselUsage">
+                </div>
 
-                <a href="./index.html" style="font-size: 14px; padding-top: 10px;">Go Back to Home Page</a>
+                <div class="newEntry"><label for="transportPetrolUsage">Petrol Usage (For Transport) Estimation
+                        (Liters):</label>
+                    <input type="number" id="transportPetrolUsage">
+                </div>
+
+                <!-- <div class="newEntry"><label for="transportEVUsage">Transport EV Used (kWh):</label>
+                    <input type="number" id="transportEVUsage">
+                </div> -->
+
+                <div class="newEntry"><label for="participantsUsingPublicTransport">Estimate Participant Count
+                        To Use Public
+                        Transport:</label>
+                    <input type="number" style="width: 300px;" id="participantsUsingPublicTransport">
+                </div>
+
+                <div class="newEntry"><label for="participantsUsingCarpool">Estimate Participant Count To Use
+                        Carpooling:</label>
+                    <input type="number" style="width: 300px;" id="participantsUsingCarpool">
+                </div>
+
+                <div class="newEntry"><label for="participantsUsingPrivateVehicle">Estimate Participant Count To
+                        Use Private
+                        Vehicles:</label>
+                    <input type="number" style="width: 300px;" id="participantsUsingPrivateVehicle">
+                </div>
+
+                <div class="newEntry"><label for="participantsUsingCycleWalk">Estimate Participant Count To Use
+                        Bicycle/Walking:</label>
+                    <input type="number" style="width: 300px;" id="participantsUsingCycleWalk">
+                </div>
+
+                <div style="text-align: center; margin: 30px 0px 10px;"><b>Waste Management</b></div>
+
+                <div class="newEntry"><label for="wasteSegregationPossibility">Waste Segregation Implementation:
+                    </label>
+                    <select id="wasteSegregationPossibility">
+                        <option value="Yes">Available</option>
+                        <option value="No">Not Available</option>
+                    </select>
+                </div>
+
+                <div class="newEntry"><label for="wasteCompostingPossibility">Waste Composting Implementation:
+                    </label>
+                    <select id="wasteCompostingPossibility">
+                        <option value="Yes">Available</option>
+                        <option value="No">Not Available</option>
+                    </select>
+                </div>
+
+                <div class="newEntry"><label for="wasteLandfillKilogram">Waste Estimated To Be Sent to Landfill
+                        (Kg):</label>
+                    <input type="number" id="wasteLandfillKilogram">
+                </div>
+                <div style="text-align: center; margin-top: 30px;">
+                    <!-- <button style="margin-bottom: 10px;" type="submit">Submit and Create Report</button> -->
+                    <button type="button" style="margin-bottom: 10px;" onclick="handleSubmitAndGenerateReport()">Submit
+                        and Create Report</button>
+
+                    <a href="./index.html" style="font-size: 14px;">Go Back to Home Page</a>
+                </div>
+
             </form>
+
         </div>
+
+
         <!-- Hidden Carbon Footprint Report for PDF -->
         <div class="container" id="report-content" style="display: none; margin: 0 auto; text-align: left;">
             <h1>🌍 Carbon Footprint Report</h1>
